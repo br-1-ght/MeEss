@@ -26,6 +26,8 @@ export default function Projects() {
   const [visibleIndexes, setVisibleIndexes] = useState([]);
 
   useEffect(() => {
+    const currentRefs = imageRefs.current; // snapshot to avoid stale ref issue
+  
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -37,13 +39,13 @@ export default function Projects() {
       },
       { threshold: 0.4 }
     );
-
-    imageRefs.current.forEach((el) => el && observer.observe(el));
-
+  
+    currentRefs.forEach((el) => el && observer.observe(el));
+  
     return () => {
-      imageRefs.current.forEach((el) => el && observer.unobserve(el));
+      currentRefs.forEach((el) => el && observer.unobserve(el));
     };
-  }, [visibleIndexes]);
+  }, [visibleIndexes]);  
 
   return (
     <section className="projects-section">

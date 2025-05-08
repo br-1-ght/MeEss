@@ -14,6 +14,8 @@ export default function Skills() {
   const [visibleIndexes, setVisibleIndexes] = useState([]);
 
   useEffect(() => {
+    const currentRefs = imageRefs.current; // snapshot the current refs
+  
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -25,13 +27,14 @@ export default function Skills() {
       },
       { threshold: 0.4 }
     );
-
-    imageRefs.current.forEach((el) => el && observer.observe(el));
-
+  
+    currentRefs.forEach((el) => el && observer.observe(el));
+  
     return () => {
-      imageRefs.current.forEach((el) => el && observer.unobserve(el));
+      currentRefs.forEach((el) => el && observer.unobserve(el)); // use snapshot here
     };
   }, [visibleIndexes]);
+  
 
   return (
     <section className="skills-section">
